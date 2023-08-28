@@ -5,7 +5,8 @@ import math
 # 113 x 53 character box
 # 0, 0 at top left and 113, 53 bottom right
 
-
+# Gradient Source: https://stackoverflow.com/a/74186686
+shade = ["@", "&", "%", "Q", "W", "N", "M", "0", "g", "B", "$", "#", "D", "R", "8", "m", "H", "X", "K", "A", "U", "b", "G", "O", "p", "V", "4", "d", "9", "h", "6", "P", "k", "q", "w", "S", "E", "2", "]", "a", "y", "j", "x", "Y", "5", "Z", "o", "e", "n", "[", "u", "l", "t", "1", "3", "I", "f", "}", "C", "{", "i", "F", "|", "(", "7", "J", ")", "v", "T", "L", "s", "?", "z", "/", "*", "c", "r", "!", "+", "<", ">", ";", "=", "^", ",", "_", ":", "'", "-", ".", "`"]
 fullGraph = []
 xCoordinates = [-6, -6, 6, 6, 0]
 yCoordinates = [-6, 6, -6, 6, 0]
@@ -30,7 +31,7 @@ def placeCoordinates(xCoordinates, yCoordinates, graph):
         print("IT APPEARS THAT THERE IS AN ERROR!\nPLEASE CHECK AND MAKE SURE YOUR COORDINATES ARE IN MATCHING PAIRS!\nDUE TO THIS ERROR, NOTHING HAS BEEN ADDED TO THE GRAPH!")
         return()
     for index, yCoordinate in enumerate(yCoordinates):
-        graph[yCoordinate] = graph[yCoordinate][:xCoordinates[index]-1] + "@" + graph[yCoordinate][xCoordinates[index]:]
+        graph[yCoordinate] = graph[yCoordinate][:xCoordinates[index]-1] + shade[20] + graph[yCoordinate][xCoordinates[index]:]
 
 def drawGraph(graph):
     os.system('cls||clear')
