@@ -27,7 +27,7 @@ def createShape(shape, size, centerX, centerY, angle):
             xCoordinates.append(round(x))
             xCoordinates.append(round(x))
             yCoordinates.append(round(y))
-            yCoordinates.append((-y))
+            yCoordinates.append(round(-y))
 
 def createEmptySquareGraph(graphWidth):
     height = (53/113)*graphWidth
