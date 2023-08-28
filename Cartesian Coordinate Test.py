@@ -13,7 +13,8 @@ graphWidth = 31
 
 def createEmptySquareGraph(graphWidth):
     height = (53/113)*graphWidth
-    xAxis = " " * graphWidth
+    # xAxis = " " * graphWidth
+    xAxis = "·" * graphWidth
     for _ in range(0, math.ceil(height)):
         fullGraph.append(xAxis)
 
