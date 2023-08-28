@@ -13,11 +13,9 @@ graphWidth = 31
 
 def createEmptySquareGraph(graphWidth):
     height = (53/113)*graphWidth
-    xAxis = "+" + str(" " * int(graphWidth-2)) + "+"
-    fullGraph.append("+" * graphWidth)
-    for _ in range(0, math.ceil(height)-2):
+    xAxis = " " * graphWidth
+    for _ in range(0, math.ceil(height)):
         fullGraph.append(xAxis)
-    fullGraph.append("+" * graphWidth)
 
 def convertCoordinates(xCoordinates, yCoordinates, graphWidth):
     for coordinateNum, coordinate in enumerate(xCoordinates):
