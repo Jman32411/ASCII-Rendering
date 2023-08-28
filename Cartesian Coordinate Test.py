@@ -16,8 +16,9 @@ yCoordinates = []
 
 graphWidth = 31
 
-def createShape(shape, size, centerX, centerY, angle):
+def createShape(shape, size, centerX, centerY):
     if shape == "circle":
+    # Equation: r^2 = (x-h)^2 + (y-k)^2
         h = centerX
         k = centerY
         r = size
@@ -28,6 +29,36 @@ def createShape(shape, size, centerX, centerY, angle):
             xCoordinates.append(round(x))
             yCoordinates.append(round(y))
             yCoordinates.append(round(-y))
+    elif shape == "square":
+        h = centerX
+        k = centerY
+        s = size
+        for xValue in range(int(-s), int(s)+1):
+            x = h+xValue
+            if abs(xValue) == s:
+                for yVal in range(int(-s),int(s)+1):
+                    xCoordinates.append(round(x))
+                    y = k+yVal
+                    yCoordinates.append(round(yVal))
+                continue
+            xCoordinates.append(round(x))
+            xCoordinates.append(round(x))
+            y = k+size
+            yCoordinates.append(round(y))
+            y = k-size
+            yCoordinates.append(round(y))
+
+    # elif shape == "SHAPENAME":
+    #     h = centerX
+    #     k = centerY
+    #     r = size
+    #     for xValue in range(int(-r), int(r)+1):
+    #         x = h+xValue
+    #         y = EQUATION HERE
+    #         xCoordinates.append(round(x))
+    #         xCoordinates.append(round(x))
+    #         yCoordinates.append(round(y))
+    #         yCoordinates.append(round(-y))
 
 def createEmptySquareGraph(graphWidth):
     height = (53/113)*graphWidth
@@ -55,8 +86,8 @@ def drawGraph(graph):
     for yAxis in graph:
         print(yAxis)
 
-createShape("circle", 14, 0, 0, 0)
-createShape("circle", 5, 0, 0, 0)
+createShape("square", 6, 0, 0)
+createShape("circle", 13, 0, 0)
 createEmptySquareGraph(graphWidth)
 print(f"Original X Coordinates: {xCoordinates}\nOriginal Y Coordinates: {yCoordinates}")
 convertCoordinates(xCoordinates, yCoordinates, graphWidth)
