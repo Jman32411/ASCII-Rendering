@@ -20,8 +20,8 @@ graphHeight = 113
 def createShape(shape, width, height, centerX, centerY):
     width = abs(round(width))
     height = abs(round(height))
-    centerX = abs(round(centerX))
-    centerY = abs(round(centerY))
+    centerX = round(centerX)
+    centerY = round(centerY)
     precision = (width+height)
     # print(shape)
     if width > math.floor(graphWidth/2)-1 or height > math.floor(graphHeight/2)-1:
