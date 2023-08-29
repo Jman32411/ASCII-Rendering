@@ -17,6 +17,47 @@ yCoordinates = []
 graphWidth = 113
 graphHeight = 113
 
+def createLine(startX, startY, endX, endY):
+    startX = startX
+    startY = startY
+    endX = endX
+    endY = endY
+    if (endX-startX) != 0:
+        slope = (endY-startY)/(endX-startX)
+        distance = math.ceil(math.sqrt(((endX-startX)**2)+((endY-startY)**2)))
+    else:
+        distance = abs(endY-startY)
+        if (endY-startY) < 0:
+            slope = "Positive"
+        else:
+            slope = "Negative"
+    if round(endX)-round(startX)>0:
+        for xValue in range(0, round(endX)-round(startX)):
+            for decimal in range(0, distance):
+                x = startX + xValue + (decimal/distance)
+                yIntercept = startY-(slope*startX)
+                y = (slope * x) + yIntercept
+                xCoordinates.append(round(x))
+                yCoordinates.append(round(y))
+    elif round(endX)-round(startX)<0:
+        for xValue in range(round(endX)-round(startX), 0):
+            for decimal in range(0, distance):
+                x = startX + xValue + (decimal/distance)
+                yIntercept = startY-(slope*startX)
+                y = (slope * x) + yIntercept
+                xCoordinates.append(round(x))
+                yCoordinates.append(round(y))
+    else:
+        if slope == "Positive":
+            for yValue in range(round(endY), round(startY)):
+                xCoordinates.append(round(startX))
+                yCoordinates.append(round(yValue))
+        else:
+            for yValue in range(round(startY), round(endY)):
+                xCoordinates.append(round(startX))
+                yCoordinates.append(round(yValue))
+
+
 def createShape(shape, width, height, centerX, centerY):
     width = abs(round(width))
     height = abs(round(height))
@@ -136,45 +177,84 @@ def placeCoordinates(xCoordinates, yCoordinates, graph):
         time.sleep(10)
         return()
     for index, yCoordinate in enumerate(yCoordinates):
-        graph[yCoordinate] = graph[yCoordinate][:xCoordinates[index]-1] + "@" + graph[yCoordinate][xCoordinates[index]:]
-        # graph[yCoordinate] = graph[yCoordinate][:xCoordinates[index]-1] + "·" + graph[yCoordinate][xCoordinates[index]:]
+        # graph[yCoordinate] = graph[yCoordinate][:xCoordinates[index]-1] + "@" + graph[yCoordinate][xCoordinates[index]:]
+        graph[yCoordinate] = graph[yCoordinate][:xCoordinates[index]-1] + "·" + graph[yCoordinate][xCoordinates[index]:]
 
 def render(graph, frameNum):
     os.system('cls||clear')
     print(frameNum)
     for yAxis in graph:
         print(yAxis)
-    
 
+def clock():
+    createNewGraph(graphWidth, graphHeight)
+    createShape("ellipse", 35, 35, 0, 0)
+    createLine(0, 0, 20*math.cos(frameNum/10), 20*math.sin(frameNum/10))
+    convertCoordinates(xCoordinates, yCoordinates, graphWidth, graphHeight)
+    placeCoordinates(xCoordinates, yCoordinates, fullGraph)
+    render(fullGraph,frameNum)
 
-# createNewGraph(graphWidth, graphHeight)
+def flippingCircle():
+    createNewGraph(graphWidth, graphHeight)
+    createShape("ellipse", 35, 35*math.sin(frameNum/5), 0, 0)
+    convertCoordinates(xCoordinates, yCoordinates, graphWidth, graphHeight)
+    placeCoordinates(xCoordinates, yCoordinates, fullGraph)
+    render(fullGraph,frameNum)
 
-# # createShape("rectangle", 14, 14, 10, 14)
-# createShape("circle", 10, 10, 4, 4)
-# # createShape("ellipse", 48, 25, 0, 0)
+def goTo3D(x, y, z, fov, camX, camY, camZ):
+    node = []
+    node.append(fov*((x+camX)/(z+camZ)))
+    node.append(fov*((y+camY)/(z+camZ)))
+    return(node)
 
-# # print(f"Original X Coordinates: {xCoordinates}\nOriginal Y Coordinates: {yCoordinates}")
-# convertCoordinates(xCoordinates, yCoordinates, graphWidth, graphHeight)
-# # print(f"New X Coordinates: {xCoordinates}\nNew Y Coordinates: {yCoordinates}")
-# placeCoordinates(xCoordinates, yCoordinates, fullGraph)
-# for counter in range(0, 1000):
-#     drawGraph(fullGraph)
-#     print(counter)
-#     time.sleep(0.05)
+def drawCube(sideLen, fov, camX, camY, camZ):
+    # SOURCE: https://scratch.mit.edu/projects/326624134/editor/
+    vertecies = []
+    vertecies.append(goTo3D(-sideLen, sideLen, 0*sideLen, fov, camX, camY, camZ))
+    vertecies.append(goTo3D(sideLen, sideLen, 0*sideLen, fov, camX, camY, camZ))
+    vertecies.append(goTo3D(sideLen, -sideLen, 0*sideLen, fov, camX, camY, camZ))
+    vertecies.append(goTo3D(-sideLen, -sideLen, 0*sideLen, fov, camX, camY, camZ))
+    vertecies.append(goTo3D(-sideLen, sideLen, 0*sideLen, fov, camX, camY, camZ))
+    vertecies.append(goTo3D(-sideLen, sideLen, -sideLen, fov, camX, camY, camZ))
+    vertecies.append(goTo3D(sideLen, sideLen, -sideLen, fov, camX, camY, camZ))
+    vertecies.append(goTo3D(sideLen, sideLen, 0*sideLen, fov, camX, camY, camZ))
+    vertecies.append(goTo3D(sideLen, sideLen, -sideLen, fov, camX, camY, camZ))
+    vertecies.append(goTo3D(sideLen, -sideLen, -sideLen, fov, camX, camY, camZ))
+    vertecies.append(goTo3D(sideLen, -sideLen, 0*sideLen, fov, camX, camY, camZ))
+    vertecies.append(goTo3D(sideLen, -sideLen, -sideLen, fov, camX, camY, camZ))
+    vertecies.append(goTo3D(-sideLen, -sideLen, -sideLen, fov, camX, camY, camZ))
+    vertecies.append(goTo3D(-sideLen, -sideLen, 0*sideLen, fov, camX, camY, camZ))
+    vertecies.append(goTo3D(-sideLen, -sideLen, -sideLen, fov, camX, camY, camZ))
+    vertecies.append(goTo3D(-sideLen, sideLen, -sideLen, fov, camX, camY, camZ))
+    createNewGraph(graphWidth, graphHeight)
+    for index, coordPair in enumerate(vertecies):
+        if index < len(vertecies)-1:
+            createLine(coordPair[0], coordPair[1], list(vertecies[index+1])[0], list(vertecies[index+1])[1])
+        else:
+            createLine(coordPair[0], coordPair[1], list(vertecies[0])[0], list(vertecies[0])[1])
+    convertCoordinates(xCoordinates, yCoordinates, graphWidth, graphHeight)
+    placeCoordinates(xCoordinates, yCoordinates, fullGraph)
+    render(fullGraph,frameNum)
 
-
-
-for frameNum in range(0, 1000):
+fov = 130
+camX = 0
+camY = 0
+camZ = 50
+for frameNum in range(0, 100000):
     start = time.time()
     fullGraph = []
     xCoordinates = []
     yCoordinates = []
-    createNewGraph(graphWidth, graphHeight)
-    createShape("ellipse", 35, 35*math.sin(frameNum/5), 0, 0)
-    # createShape("rectangle", 40, 40*math.sin(frameNum/5), 0, 0)
-    convertCoordinates(xCoordinates, yCoordinates, graphWidth, graphHeight)
-    placeCoordinates(xCoordinates, yCoordinates, fullGraph)
-    render(fullGraph,frameNum)
+    # flippingCircle()
+    # clock()
+    drawCube(10, fov, 5*math.sin(frameNum/10), 5*math.cos(frameNum/10), camZ)
     end = time.time()
     if (end-start) < 0.05:
         time.sleep((end-start))
+
+
+# testList = [[1, 2], [3, 4], [5, 6], [7, 8]]
+# for index, coordPair in enumerate(testList):
+#     print(coordPair[1])
+#     print(list(testList[index+1])[1])
+# print("done")
