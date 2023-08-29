@@ -14,10 +14,14 @@ xCoordinates = []
 yCoordinates = []
 
 
-graphWidth = 31
-graphHeight = 31
+graphWidth = 113
+graphHeight = 113
 
 def createShape(shape, width, height, centerX, centerY):
+    width = abs(round(width))
+    height = abs(round(height))
+    centerX = abs(round(centerX))
+    centerY = abs(round(centerY))
     precision = (width+height)
     # print(shape)
     if width > math.floor(graphWidth/2)-1 or height > math.floor(graphHeight/2)-1:
@@ -58,30 +62,32 @@ def createShape(shape, width, height, centerX, centerY):
                     # print(h+xValue+(decimal/precision))
                     x = h+xValue+(decimal/precision)
                     # print(math.sqrt((r**2)-((x-h)**2))+k)
-                    y = ((b*math.sqrt((a**2)-(h**2)+(2*h*x)-(x**2)))/a)+k
+                    y = -k+((b*math.sqrt((a**2)-(h**2)+(2*h*x)-(x**2)))/a)
                     xCoordinates.append(round(x))
                     xCoordinates.append(round(x))
                     yCoordinates.append(round(y))
-                    yCoordinates.append(round(-y))
+                    y = -k-((b*math.sqrt((a**2)-(h**2)+(2*h*x)-(x**2)))/a)
+                    yCoordinates.append(round(y))
                 elif a == b:
                     # print(h+xValue+(decimal/precision))
                     x = h+xValue+(decimal/precision)
                     # print(math.sqrt((r**2)-((x-h)**2))+k)
-                    y = -k+math.sqrt((r**2)-(x**2)+(2*h*x)-(h**2))
+                    y = -k+math.sqrt((a**2)-(x**2)+(2*h*x)-(h**2))
                     xCoordinates.append(round(x))
                     xCoordinates.append(round(x))
                     yCoordinates.append(round(y))
-                    y = -k-math.sqrt((r**2)-(x**2)+(2*h*x)-(h**2))
+                    y = -k-math.sqrt((a**2)-(x**2)+(2*h*x)-(h**2))
                     yCoordinates.append(round(y))
                 else:
                     # print(h+xValue+(decimal/precision))
                     x = h+xValue+(decimal/precision)
                     # print(math.sqrt((r**2)-((x-h)**2))+k)
-                    y = ((a*math.sqrt((b**2)-(h**2)+(2*h*x)-(x**2)))/b)+k
+                    y = -k+((a*math.sqrt((b**2)-(h**2)+(2*h*x)-(x**2)))/b)
                     xCoordinates.append(round(x))
                     xCoordinates.append(round(x))
                     yCoordinates.append(round(y))
-                    yCoordinates.append(round(-y))
+                    y = -k-((a*math.sqrt((b**2)-(h**2)+(2*h*x)-(x**2)))/b)
+                    yCoordinates.append(round(y))
 
                 
     elif shape == "rectangle":
@@ -130,26 +136,45 @@ def placeCoordinates(xCoordinates, yCoordinates, graph):
         time.sleep(10)
         return()
     for index, yCoordinate in enumerate(yCoordinates):
-        # graph[yCoordinate] = graph[yCoordinate][:xCoordinates[index]-1] + "@" + graph[yCoordinate][xCoordinates[index]:]
-        graph[yCoordinate] = graph[yCoordinate][:xCoordinates[index]-1] + "·" + graph[yCoordinate][xCoordinates[index]:]
+        graph[yCoordinate] = graph[yCoordinate][:xCoordinates[index]-1] + "@" + graph[yCoordinate][xCoordinates[index]:]
+        # graph[yCoordinate] = graph[yCoordinate][:xCoordinates[index]-1] + "·" + graph[yCoordinate][xCoordinates[index]:]
 
-def drawGraph(graph):
+def render(graph, frameNum):
     os.system('cls||clear')
+    print(frameNum)
     for yAxis in graph:
         print(yAxis)
+    
+
+
+# createNewGraph(graphWidth, graphHeight)
+
+# # createShape("rectangle", 14, 14, 10, 14)
+# createShape("circle", 10, 10, 4, 4)
+# # createShape("ellipse", 48, 25, 0, 0)
+
+# # print(f"Original X Coordinates: {xCoordinates}\nOriginal Y Coordinates: {yCoordinates}")
+# convertCoordinates(xCoordinates, yCoordinates, graphWidth, graphHeight)
+# # print(f"New X Coordinates: {xCoordinates}\nNew Y Coordinates: {yCoordinates}")
+# placeCoordinates(xCoordinates, yCoordinates, fullGraph)
+# for counter in range(0, 1000):
+#     drawGraph(fullGraph)
+#     print(counter)
+#     time.sleep(0.05)
 
 
 
-# createShape("rectangle", 14, 14, 10, 14)
-createShape("circle", 10, 10, 4, 4)
-# createShape("ellipse", 48, 25, 0, 0)
-
-createNewGraph(graphWidth, graphHeight)
-print(f"Original X Coordinates: {xCoordinates}\nOriginal Y Coordinates: {yCoordinates}")
-convertCoordinates(xCoordinates, yCoordinates, graphWidth, graphHeight)
-print(f"New X Coordinates: {xCoordinates}\nNew Y Coordinates: {yCoordinates}")
-placeCoordinates(xCoordinates, yCoordinates, fullGraph)
-for counter in range(0, 1000):
-    drawGraph(fullGraph)
-    print(counter)
-    time.sleep(0.05)
+for frameNum in range(0, 1000):
+    start = time.time()
+    fullGraph = []
+    xCoordinates = []
+    yCoordinates = []
+    createNewGraph(graphWidth, graphHeight)
+    createShape("ellipse", 35, 35*math.sin(frameNum/5), 0, 0)
+    # createShape("rectangle", 40, 40*math.sin(frameNum/5), 0, 0)
+    convertCoordinates(xCoordinates, yCoordinates, graphWidth, graphHeight)
+    placeCoordinates(xCoordinates, yCoordinates, fullGraph)
+    render(fullGraph,frameNum)
+    end = time.time()
+    if (end-start) < 0.05:
+        time.sleep((end-start))
