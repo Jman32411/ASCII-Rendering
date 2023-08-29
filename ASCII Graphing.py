@@ -38,28 +38,51 @@ def createShape(shape, width, height, centerX, centerY):
                 # print(h+xValue+(decimal/precision))
                 x = h+xValue+(decimal/precision)
                 # print(math.sqrt((r**2)-((x-h)**2))+k)
-                y = math.sqrt((r**2)-((x-h)**2))+k
+                y = -k+math.sqrt((r**2)-(x**2)+(2*h*x)-(h**2))
                 xCoordinates.append(round(x))
                 xCoordinates.append(round(x))
                 yCoordinates.append(round(y))
-                yCoordinates.append(round(-y))
+                y = -k-math.sqrt((r**2)-(x**2)+(2*h*x)-(h**2))
+                yCoordinates.append(round(y))
 
     elif shape == "ellipse":
-    # Equation if h>k (wide): (((x−h)^2)/a^2) + (((y−k)^2)/b^2) = 1
-    # Equation if h<k (tall): (((x−h)^2)/b^2) + (((y−k)^2)/a^2) = 1
+    # Equation if a>b (wide): (((x−h)^2)/a^2) + (((y−k)^2)/b^2) = 1
+    # Equation if a<b (tall): (((x−h)^2)/b^2) + (((y−k)^2)/a^2) = 1
         h = centerX
         k = centerY
-        r = width
-        for xValue in range(int(-r), int(r)):
+        a = width
+        b = height
+        for xValue in range(int(-a), int(a)):
             for decimal in range(0, precision):
-                # print(h+xValue+(decimal/precision))
-                x = h+xValue+(decimal/precision)
-                # print(math.sqrt((r**2)-((x-h)**2))+k)
-                y = math.sqrt((r**2)-((x-h)**2))+k
-                xCoordinates.append(round(x))
-                xCoordinates.append(round(x))
-                yCoordinates.append(round(y))
-                yCoordinates.append(round(-y))
+                if a > b:
+                    # print(h+xValue+(decimal/precision))
+                    x = h+xValue+(decimal/precision)
+                    # print(math.sqrt((r**2)-((x-h)**2))+k)
+                    y = ((b*math.sqrt((a**2)-(h**2)+(2*h*x)-(x**2)))/a)+k
+                    xCoordinates.append(round(x))
+                    xCoordinates.append(round(x))
+                    yCoordinates.append(round(y))
+                    yCoordinates.append(round(-y))
+                elif a == b:
+                    # print(h+xValue+(decimal/precision))
+                    x = h+xValue+(decimal/precision)
+                    # print(math.sqrt((r**2)-((x-h)**2))+k)
+                    y = -k+math.sqrt((r**2)-(x**2)+(2*h*x)-(h**2))
+                    xCoordinates.append(round(x))
+                    xCoordinates.append(round(x))
+                    yCoordinates.append(round(y))
+                    y = -k-math.sqrt((r**2)-(x**2)+(2*h*x)-(h**2))
+                    yCoordinates.append(round(y))
+                else:
+                    # print(h+xValue+(decimal/precision))
+                    x = h+xValue+(decimal/precision)
+                    # print(math.sqrt((r**2)-((x-h)**2))+k)
+                    y = ((a*math.sqrt((b**2)-(h**2)+(2*h*x)-(x**2)))/b)+k
+                    xCoordinates.append(round(x))
+                    xCoordinates.append(round(x))
+                    yCoordinates.append(round(y))
+                    yCoordinates.append(round(-y))
+
                 
     elif shape == "rectangle":
         h = centerX
@@ -72,7 +95,7 @@ def createShape(shape, width, height, centerX, centerY):
                 for yVal in range(int(-height),int(height)+1):
                     xCoordinates.append(round(x))
                     y = k+yVal
-                    yCoordinates.append(round(yVal))
+                    yCoordinates.append(round(y))
                 continue
             xCoordinates.append(round(x))
             xCoordinates.append(round(x))
@@ -117,8 +140,9 @@ def drawGraph(graph):
 
 
 
-createShape("rectangle", 14, 14, 0, 0)
-createShape("circle", 14, 14, 0, 0)
+# createShape("rectangle", 14, 14, 10, 14)
+createShape("circle", 10, 10, 4, 4)
+# createShape("ellipse", 48, 25, 0, 0)
 
 createNewGraph(graphWidth, graphHeight)
 print(f"Original X Coordinates: {xCoordinates}\nOriginal Y Coordinates: {yCoordinates}")
