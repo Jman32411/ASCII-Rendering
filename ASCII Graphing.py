@@ -236,18 +236,29 @@ def drawCube(sideLen, fov, camX, camY, camZ):
     placeCoordinates(xCoordinates, yCoordinates, fullGraph)
     render(fullGraph,frameNum)
 
-fov = 130
+fov = 30
 camX = 0
 camY = 0
 camZ = 50
-for frameNum in range(0, 100000):
+for frameNum in range(0, 50):
     start = time.time()
     fullGraph = []
     xCoordinates = []
     yCoordinates = []
     # flippingCircle()
     # clock()
-    drawCube(10, fov, 5*math.sin(frameNum/10), 5*math.cos(frameNum/10), camZ)
+    drawCube(20, fov, 10*math.sin(frameNum/10)+camX, 10*math.cos(frameNum/10)+camY, camZ)
+    end = time.time()
+    if (end-start) < 0.05:
+        time.sleep((end-start))
+for frameNum in range(0, 50):
+    start = time.time()
+    fullGraph = []
+    xCoordinates = []
+    yCoordinates = []
+    # flippingCircle()
+    # clock()
+    drawCube(20, fov, frameNum+camX, camY, camZ)
     end = time.time()
     if (end-start) < 0.05:
         time.sleep((end-start))

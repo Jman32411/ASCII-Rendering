@@ -15,4 +15,4 @@ progressBarLength = 10
 clearTerminal()
 for progress in range(0, progressBarLength + 1):
     print(f'{("█" * progress)}{("░" * (progressBarLength - progress))} {round((progress/progressBarLength) * 100)}%', end="\r")
-    time.sleep(0.2)
+    time.sleep(0.1)
